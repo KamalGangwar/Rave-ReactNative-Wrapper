@@ -39,7 +39,7 @@ You can pull in react-native-rave-webview into app with the steps below;
 
       onSuccess(data) {
         console.log("success", data);
-            // PLEASE CALL THE VERIFY ENDPOINT TO CONFIRM TRANSACTION STATUS 
+            // PLEASE CALL THE FLUTTERWAVE VERIFY ENDPOINT TO CONFIRM TRANSACTION STATUS 
         
 
       }
