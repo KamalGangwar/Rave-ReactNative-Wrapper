@@ -26,7 +26,7 @@ You can pull in react-native-rave-webview into app with the steps below;
     import {Rave} from 'Rave-ReactNative-Wrapper';
     
 #### 2. You can import shortid to use as your txref generator  
-    import shortid from 'shortid'; //  Feel free to use your own txref generator
+    import shortid from 'shortid'; //   Feel free to use your own logic/ package to generate unique references
 
  #### 2. Set your success, failure and close methods
 
@@ -37,21 +37,24 @@ You can pull in react-native-rave-webview into app with the steps below;
 
       }
 
-      onSuccess(data) {
+       onSuccess(data) {
         console.log("success", data);
-            // PLEASE CALL THE FLUTTERWAVE VERIFY ENDPOINT TO CONFIRM TRANSACTION STATUS 
+        // You get the complete response returned that comes from Rave,
         
 
       }
 
-      onCancel() {
-        console.log("error", 'Transaction was Cancelled!');
-      }
+     onCancel(data) {
+    	// PLEASE CALL THE FLUTTERWAVE VERIFY ENDPOINT TO CONFIRM TRANSACTION STATUS
+    	console.log(data);
+     }
 
       onError() {
         //an error occoured
+	// PLEASE CALL THE FLUTTERWAVE VERIFY ENDPOINT TO CONFIRM TRANSACTION STATUS 
 
       }
+
 #### 3. Use component (ensure to set currency for the desired payment method to display)
 
 
@@ -71,7 +74,7 @@ You can pull in react-native-rave-webview into app with the steps below;
                 ActivityIndicatorColor="black"
                 onCancel={this.onCancel}
                 onSuccess={this.onSuccess}
-                onError={() => { alert('something went wrong') }}
+                onError={() => {this.onError}
                 btnStyles={{backgroundColor:'green', width:100, alignContent:  'center' }}
                 textStyles={{ color:'white', alignSelf:  'center', }}
                 txref={shortid()} //you can use your own generated txref function here
