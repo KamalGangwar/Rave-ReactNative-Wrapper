@@ -26,7 +26,7 @@ You can pull in react-native-rave-webview into app with the steps below;
     import {Rave} from 'Rave-ReactNative-Wrapper';
     
 #### 2. You can import shortid to use as your txref generator  
-    import shortid from 'shortid'; // in order to generate txref. feel free to use your own generator
+    import shortid from 'shortid'; //  Feel free to use your own txref generator
 
  #### 2. Set your success, failure and close methods
 
@@ -39,7 +39,7 @@ You can pull in react-native-rave-webview into app with the steps below;
 
       onSuccess(data) {
         console.log("success", data);
-            // PLEASE CALL THE VERIFY ENDPOINT TO CONFIRM status
+            // PLEASE CALL THE VERIFY ENDPOINT TO CONFIRM TRANSACTION STATUS 
         
 
       }
