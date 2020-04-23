@@ -74,7 +74,7 @@ You can pull in react-native-rave-webview into app with the steps below;
                 ActivityIndicatorColor="black"
                 onCancel={this.onCancel}
                 onSuccess={this.onSuccess}
-                onError={() => {this.onError}
+                onError={() => {this.onError}}
                 btnStyles={{backgroundColor:'green', width:100, alignContent:  'center' }}
                 textStyles={{ color:'white', alignSelf:  'center', }}
                 txref={shortid()} //you can use your own generated txref function here
