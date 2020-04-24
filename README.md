@@ -23,7 +23,7 @@ You can pull in react-native-rave-webview into app with the steps below;
 
 #### 1. import Rave Component
 
-    import {Rave} from 'Rave-ReactNative-Wrapper';
+    import {Rave} from 'rave-reactnative-wrapper';
     
 #### 2. You can import shortid to use as your txref generator  
     import shortid from 'shortid'; //   Feel free to use your own logic/ package to generate unique references
