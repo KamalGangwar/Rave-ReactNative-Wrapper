@@ -17,7 +17,7 @@ You can pull in react-native-rave-webview into app with the steps below;
 
 -   Change directory into your current project directory from your terminal and enter this command:
 
-    > npm install react-native-rave-webview --save
+    > npm i rave-reactnative-wrapper --save
 
 ## Usage
 
