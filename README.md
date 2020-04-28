@@ -105,9 +105,7 @@ const PayNow = (props) => {
 
 | Name                     |                                               use/description                                               |              extra |
 | :----------------------- | :---------------------------------------------------------------------------------------------------------: | -----------------: |
-| `buttonText`             |                                         Defines text on the button                                          |             `null` |
-| `textStyles`             |                                      Defines styles for text in button                                      |             `null` |
-| `btnStyles`              |                                          Defines style for button                                           |             `null` |
+| `button`                 |                           Receives your button component and passes down `props`                            |             `null` |
 | `raveKey`                |           Public or Private FlutterWave Rave key(visit https://rave.flutterwave.com to get yours)           |             `null` |
 | `amount`                 |                                              Amount to be paid                                              |             `null` |
 | `txref`                  |                                     set TransactionRef for transaction                                      |             `null` |
