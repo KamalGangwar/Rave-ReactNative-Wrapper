@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import decode from 'urldecode';
+import styles from './styles'
 let showModal;
 let setShowModal;
 let isLoading;
@@ -79,16 +80,12 @@ export const Rave = props => {
       <View>
         <Modal
           visible={showModal}
-          style={{ backgroundColor: 'red' }}
           animationType="slide"
           transparent={false}
         >
           <WebView
             javaScriptEnabled={true}
-            javaScriptEnabledAndroid={true}
-            useWebKit={true}
             originWhitelist={['*']}
-            ref={webView => (this.MyWebView = webView)}
             source={Rave}
             onMessage={e => {
               messageRecived(props, e.nativeEvent.data);
@@ -107,30 +104,14 @@ export const Rave = props => {
           {/*Start of Loading modal*/}
           {isLoading === true && (
             <View
-              style={{
-                position: 'absolute',
-                height: '100%',
-                width: '100%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                top: 0,
-              }}
+              style={styles.loadingView}
             >
               <ActivityIndicator
                 size="large"
                 color={props.ActivityIndicatorColor || '#f5a623'}
               />
               <TouchableOpacity
-                style={{
-                  position: 'absolute',
-                  top: 20,
-                  right: 20,
-                  backgroundColor: '#f5a623',
-                  borderRadius: 4,
-                  padding: 10,
-                  paddingTop: 7,
-                  paddingBottom: 7,
-                }}
+                style={styles.cancelButton}
                 onPress={() => {
                   setShowModal(false);
                   setIsLoading(false);
@@ -138,7 +119,7 @@ export const Rave = props => {
                 }}
               >
                 <Text
-                  style={{ color: 'white', fontSize: 12, fontWeight: 'bold' }}
+                  style={styles.cancelText}
                 >
                   Cancel
                 </Text>
@@ -146,12 +127,7 @@ export const Rave = props => {
             </View>
           )}
         </Modal>
-        <TouchableOpacity
-          style={props.btnStyles}
-          onPress={() => setShowModal(true) }
-        >
-          <Text style={props.textStyles}>{props.buttonText}</Text>
-        </TouchableOpacity>
+        {props.button({ onPress: () => setShowModal(true) })}
       </View>
     );
   } else {
@@ -159,15 +135,12 @@ export const Rave = props => {
       <View>
         <Modal
           visible={showModal}
-          style={{ backgroundColor: 'red' }}
           animationType="slide"
           transparent={false}
         >
           <WebView
             javaScriptEnabled={true}
-            javaScriptEnabledAndroid={true}
             originWhitelist={['*']}
-            ref={webView => (this.MyWebView = webView)}
             source={Rave}
             onMessage={e => {
               messageRecived(
@@ -193,30 +166,14 @@ export const Rave = props => {
           {/*Start of Loading modal*/}
           {isLoading === true && (
             <View
-              style={{
-                position: 'absolute',
-                height: '100%',
-                width: '100%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                top: 0,
-              }}
+              style={styles.loadingView}
             >
               <ActivityIndicator
                 size="large"
                 color={props.ActivityIndicatorColor || '#f5a623'}
               />
               <TouchableOpacity
-                style={{
-                  position: 'absolute',
-                  top: 20,
-                  right: 20,
-                  backgroundColor: '#f5a623',
-                  borderRadius: 4,
-                  padding: 10,
-                  paddingTop: 7,
-                  paddingBottom: 7,
-                }}
+                style={styles.cancelButton}
                 onPress={() => {
                   setShowModal(false);
                   setIsLoading(false);
@@ -224,7 +181,7 @@ export const Rave = props => {
                 }}
               >
                 <Text
-                  style={{ color: 'white', fontSize: 12, fontWeight: 'bold' }}
+                  style={styles.cancelText}
                 >
                   Cancel
                 </Text>
@@ -232,12 +189,7 @@ export const Rave = props => {
             </View>
           )}
         </Modal>
-        <TouchableOpacity
-          style={props.btnStyles}
-          onPress={() => setShowModal(true)}
-        >
-          <Text style={props.textStyles}>{props.buttonText}</Text>
-        </TouchableOpacity>
+        {props.button({ onPress: () => setShowModal(true) })}
       </View>
     );
   }
