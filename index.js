@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import decode from 'urldecode';
-import styles from './styles'
+import styles from './style'
 let showModal;
 let setShowModal;
 let isLoading;
@@ -127,7 +127,17 @@ export const Rave = props => {
             </View>
           )}
         </Modal>
-        {props.button({ onPress: () => setShowModal(true) })}
+        { 
+        
+        
+        props.button === undefined ? 
+        <TouchableOpacity style={props.btnStyles} onPress={() => setShowModal(true)}>
+            <Text style={props.textStyles}>{props.buttonText}</Text>
+        </TouchableOpacity>
+        : props.button({ onPress: () => setShowModal(true) })
+        
+        
+        }
       </View>
     );
   } else {

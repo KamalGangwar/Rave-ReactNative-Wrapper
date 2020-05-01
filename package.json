@@ -1,6 +1,6 @@
 {
   "name": "rave-reactnative-wrapper",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A react native wrapper for rave, that utilizes the power of webView to achieve rave by Flutterwave payment integration",
   "main": "index.js",
   "scripts": {
