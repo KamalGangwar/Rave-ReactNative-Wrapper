@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Modal,
   Text,
@@ -11,69 +11,70 @@ import {
 import { WebView } from 'react-native-webview';
 import decode from 'urldecode';
 import styles from './style'
+
 let showModal;
 let setShowModal;
 let isLoading;
 let setIsLoading;
 
 export const Rave = props => {
-  
+  let button = props.button === undefined ? 
+  <TouchableOpacity style={props.btnStyles} onPress={() => setShowModal(true)}>
+      <Text style={props.textStyles}>{props.buttonText}</Text>
+  </TouchableOpacity>
+  : props.button({ onPress: () => setShowModal(true) });
+
   [showModal, setShowModal] = useState(false);
   [isLoading, setIsLoading] = useState(false);
-  //  this._onNavigationStateChange = this._onNavigationStateChange.bind(this)
+  [url, setURL] = useState();
+  
+  useEffect(()=>{
+    setIsLoading(true)
+    fetchURL();
+    setIsLoading(false);
+  },[props.txref]);
+
+  const fetchURL =  ()=>{ 
+    let data = {
+      PBFPubKey: props.raveKey,
+      ...props,
+      customer_phone: props.customerPhone || props.billingMobile,
+      customer_firstname: props.customer_firstname || props.billingName,
+      customer_email: props.customerEmail || props.billingEmail,
+      customer_lastname: props.customer_lastname || "",
+      redirect_url:"https://ravesandboxapi.flutterwave.com/redirection",
+    }
+       fetch("https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/hosted/pay",
+       {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(response => {
+        setIsLoading(false)
+        setURL(response.data.link)
+      })
+      .catch(error => {
+        setIsLoading(false)
+        setURL("")
+        Alert.alert(
+            "Transaction Failed",
+            "Please try again",
+            [
+              { text: "OK", onPress: () => console.log(error) }
+            ],
+            { cancelable: false }
+          );
+    
+      });
+  }
+  
   let Rave = {
-    html: `
-        <!DOCTYPE html>
-        <html lang="en">
-          <head>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-          </head>
-          <body onload="payWithRave()" style="background-color:#fff;height:100vh ">
-            <form>
-              <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
-            </form>
-            <script>
-              window.onload = payWithRave;
-              function payWithRave() {
-                var x = getpaidSetup({
-                  PBFPubKey: "${props.raveKey}",
-                  amount: "${props.amount}",
-                  customer_phone: "${props.customerPhone || ''}",
-                  customer_email: "${props.customerEmail || ''}",
-                  custom_description: "${props.contentDescription}",
-                  currency: "${props.currency || 'NGN'}",
-                  custom_logo:"${props.custom_logo || ''}",
-                  txref: "${props.txref}",
-                  meta: "${props.meta || []}",
-                  onclose: function(data) {
-                    var resp = {event: "cancelled", data: {txRef: "${
-                      props.txref
-                    }", flwRef: data, status:""}};
-                    window.ReactNativeWebView.postMessage(JSON.stringify(resp))
-                  },
-                   callback: function(response) {
-                       var txref = response.tx.txRef;
-                        if (
-                          response.tx.chargeResponseCode == "00" ||
-                          response.tx.chargeResponseCode == "0"
-                      ) {
-                           var resp = {event: "successful", data: {txRef: "${
-                             props.txref
-                           }", ...response}};
-                      } else {
-                        var resp = {event: "successful", data: {txRef: "${
-                          props.txref
-                        }", ...response}};
-                        window.ReactNativeWebView.postMessage(JSON.stringify(resp))
-                      }
-                      x.close();
-                 }
-                });
-              }
-            </script>
-          </body>
-        </html>
-      `,
+    uri: url,
   };
   if (Platform.OS === 'ios') {
     return (
@@ -93,13 +94,11 @@ export const Rave = props => {
             onLoadStart={() => setIsLoading(true)}
             onLoadEnd={() => setIsLoading(false)}
             onNavigationStateChange={async data => {
-              if (
-                data.url.includes('https://api.ravepay.co') ||
-                data.url.includes('https://ravesandboxapi.flutterwave.com')
-              ) {
+              if (data.url.includes("https://ravesandboxapi.flutterwave.com/redirection")){
                 await messageRecived(props, data);
               }
-            }}
+            }
+          }
           />
           {/*Start of Loading modal*/}
           {isLoading === true && (
@@ -127,17 +126,7 @@ export const Rave = props => {
             </View>
           )}
         </Modal>
-        { 
-        
-        
-        props.button === undefined ? 
-        <TouchableOpacity style={props.btnStyles} onPress={() => setShowModal(true)}>
-            <Text style={props.textStyles}>{props.buttonText}</Text>
-        </TouchableOpacity>
-        : props.button({ onPress: () => setShowModal(true) })
-        
-        
-        }
+        {button}
       </View>
     );
   } else {
@@ -165,10 +154,7 @@ export const Rave = props => {
             onLoadStart={() => setIsLoading(true)}
             onLoadEnd={() => setIsLoading(false)}
             onNavigationStateChange={async data => {
-              if (
-                data.url.includes('https://api.ravepay.co') ||
-                data.url.includes('https://ravesandboxapi.flutterwave.com')
-              ) {
+              if (data.url.includes("https://ravesandboxapi.flutterwave.com/redirection")){
                 await messageRecived(props, data);
               }
             }}
@@ -199,7 +185,7 @@ export const Rave = props => {
             </View>
           )}
         </Modal>
-        {props.button({ onPress: () => setShowModal(true) })}
+        {button }
       </View>
     );
   }
@@ -218,22 +204,26 @@ const parseResponse = (props, data) => {
       flwRef: url.searchParams.get('ref'),
       status: url.searchParams.get('message'),
     };
-  } else if (data.url.includes('https://ravesandboxapi.flutterwave.com')) {
+  } else if (data.url.includes('https://ravesandboxapi.flutterwave.com/redirection')) {
     let regex = /[?&]([^=#]+)=([^&#]*)/g,
-      params = {},
       match = [];
-    let values = [];
-    for (let i = 0; i < 4; i++) {
-      match = regex.exec(data.url);
-      values.push(match[2]);
+    match = regex.exec(decode(data.url));
+    if (match[1] === "flwref"){ // handle test
+      response = {
+        txRef: props.txref,
+        flwRef: match[2] || ""
+      }
     }
-    response = {
-      txRef: props.txref,
-      flwRef: values[0],
-      status: values[2],
-    };
+    else { // handle live
+      let parsedRes = JSON.parse(decode(match[2])); 
+      response = {
+        txRef: props.txref,
+        flwRef: parsedRes.flwRef || "",
+        status: parsedRes.status || "",
+      };
+    }
   } else {
-    // handle live
+    // handle exceptional cases
     let regex = /[?&]([^=#]+)=([^&#]*)/g,
       params = {},
       match;
@@ -252,7 +242,7 @@ const messageRecived = async (props, data) => {
   switch (parsedData.event) {
     case 'cancelled':
       await setShowModal(false);
-      return props.onCancel(parsedData.data);
+      return props.onSuccess(parsedData.data);
     case 'successful':
       await setShowModal(false);
       return props.onSuccess(parsedData.data);
@@ -266,5 +256,3 @@ const messageRecived = async (props, data) => {
       }
   }
 };
-
-
