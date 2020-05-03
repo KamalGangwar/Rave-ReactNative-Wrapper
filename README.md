@@ -79,22 +79,22 @@ const PayNow = (props) => {
          return (
             <View  style={styles.container}>
               <Rave
-                button={props => (
-                    <PayWithCard {...props}/>
-                  )}
-                raveKey="<your-api-key-here>"
-                amount={20000}
-                customerEmail={"team9.tech@gmail.com"}
-                customerPhone={"08114089344"}
-                billingEmail="team9.tech@gmail.com (optional)"
-                billingMobile="08114089344 (optional)"
-                billingName="Martins Joseph (optional but advised)"
-                ActivityIndicatorColor="black"
-                onCancel={this.onCancel}
-                onSuccess={this.onSuccess}
-                onError={this.onError}
-                txref={shortid()} //you can use your own generated txref function here
-              />
+                    buttonText="Pay with Flutterwave"
+                    raveKey="FLWPUBK_TEST-e2edac55d072562ca37a991a3d97eeb3-X"
+                    amount={10}
+                    currency={'NGN'}
+                    country={'NG'}
+                    customerEmail={'team9.tech@gmail.com'}
+                    customerPhone={'08114089344'}
+                    customer_firstname={'First Name'}
+                    customer_lastname={'Last Name'}
+                    ActivityIndicatorColor="black"
+                    payment_options="card"
+                    onCancel={onCancel}
+                    onSuccess={onSuccess}
+                    onError={onError}
+                    txref={shortid()}
+                />
             </View>
         );
        }
