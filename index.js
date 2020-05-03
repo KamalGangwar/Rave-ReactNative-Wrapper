@@ -37,6 +37,8 @@ export const Rave = props => {
   const fetchURL =  ()=>{ 
     let data = {
       PBFPubKey: props.raveKey,
+      currency: props.currency || "NGN",
+      country: props.country  || "NG",
       ...props,
       customer_phone: props.customerPhone || props.billingMobile,
       customer_firstname: props.customer_firstname || props.billingName,
@@ -72,7 +74,7 @@ export const Rave = props => {
     
       });
   }
-  
+
   let Rave = {
     uri: url,
   };

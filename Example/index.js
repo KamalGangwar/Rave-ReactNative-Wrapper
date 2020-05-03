@@ -26,7 +26,7 @@ export default function App() {
           <Image source={''} style={{}} />
         </View>
         <Text style={{}}>Pay Now</Text>
-        <Entypo name="chevron-thick-right" color="#C7C7CC" size={18} />
+        <Entypo name="youtube-with-circle" color="gray" size={18} />
       </TouchableOpacity>
     );
   };
