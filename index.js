@@ -244,7 +244,7 @@ const messageRecived = async (props, data) => {
   switch (parsedData.event) {
     case 'cancelled':
       await setShowModal(false);
-      return props.onSuccess(parsedData.data);
+      return props.onCancel(parsedData.data);
     case 'successful':
       await setShowModal(false);
       return props.onSuccess(parsedData.data);
