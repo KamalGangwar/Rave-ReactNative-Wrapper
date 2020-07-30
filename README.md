@@ -1,4 +1,8 @@
-# Rave By Flutterwave React Native Web View Component
+<p align="center">
+    <img title="Flutterwave" height="200" src="https://flutterwave.com/images/logo-colored.svg" width="50%"/>
+</p>
+
+# Flutterwave React Native Web View Component
 
 This is the react native SDK for Rave By [Flutterwave.](https://rave.flutterwave.com) that utilizes webview in displaying the Rave modal
 
