@@ -22,7 +22,9 @@
   "author": "Blessed Yahaya, Flutterwave Developers",
   "license": "ISC",
   "dependencies": {
-    "react-native-webview": "^8.0.3",
     "urldecode": "^1.0.1"
-  }
+  },
+  "peerDependencies": {
+    "react-native-webview": "^8.0.3",
+  },
 }
